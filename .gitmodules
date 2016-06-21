@@ -1,0 +1,3 @@
+[submodule "ndn-js"]
+	path = ndn-js
+	url = https://github.com/named-data/ndn-js
