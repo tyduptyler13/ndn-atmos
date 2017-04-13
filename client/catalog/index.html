@@ -33,7 +33,7 @@ ga('send', 'pageview');
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js">
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js">
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min.js">
 </script>
@@ -42,6 +42,8 @@ ga('send', 'pageview');
 <script src="js/autocomplete.js">
 </script>
 <script src="js/treeExplorer.js">
+</script>
+<script src="js/downloads.js">
 </script>
 <script src="js/catalog.js">
 </script>
@@ -94,6 +96,15 @@ ga('send', 'pageview');
         <input type="text" class="form-control" name="value" placeholder="Custom Restriction">
       </div>
     </div>
+    
+    <div class="panel panel-default" id="download-template">
+      <div class="panel-body">
+        <button type="button" class="close"><span>&times;</span></button>
+        <h3 class="download-name">Example name</h3>
+        <div class="progress"><div class="progress-bar progress-bar-striped active"></div></div>
+        <div>Status: <span class="download-status">Request has started</span></div>
+      </div>
+    </div>
   </div>
 
   <header>
@@ -105,6 +116,7 @@ ga('send', 'pageview');
         <li class="active" id="search-tab"><a data-toggle="tab" href="#filterSearch">Filter Search</a></li>
         <li id="path-search-tab"><a data-toggle="tab" href="#path-search">Path Search</a></li>
         <li id="tree-search-tab"><a data-toggle="tab" href="#tree-search">Tree Search</a></li>
+        <li id="downloads-tab"><a data-toggle="tab" href="#downloads">Downloads</a></li>
       </ul>
     </div>
   </header>
@@ -156,12 +168,16 @@ ga('send', 'pageview');
         </div>
 
         <div class="tab-pane fade" id="tree-search">
-      <div class="panel panel-info" id="treeSearchPane">
+          <div class="panel panel-info" id="treeSearchPane">
             <div class="panel-heading">Tree Search</div>
             <div class="panel-body" id="treeSearch">
               <div></div>
             </div>
           </div>
+        </div>
+
+        <div class="tab-pane fade" id="downloads">
+          
         </div>
 
         <div id="results" class="panel panel-default hidden">

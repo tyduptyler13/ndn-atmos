@@ -514,7 +514,7 @@ var Atmos = (function() {
 
       var names = [];
 
-      $(elements).find('.metaDataLink').each(function() {
+      $(elements).each(function() { //Note: Modified this and removed a find('.metadataLink') specifier, might break.
         var name = $(this).text();
         names.push(name);
       });
@@ -597,6 +597,10 @@ var Atmos = (function() {
           keyAdded = true;
         }
 
+        var download = new DownloadStatus(names[0].substring(0, 10) + "..." + names[0].slice(-20) + ", ...", names.join(',\n'));
+        
+        download.focus();
+
         //Retrieval
         var retrievePrefix = new Name("/catalog/ui/" + guid());
         scope.face.registerPrefix(retrievePrefix, function(prefix, interest, face, interestFilterId, filter) {
@@ -622,24 +626,33 @@ var Atmos = (function() {
           try {
             face.putData(data);
             console.log("Responded for", interest.getName().toUri(), data);
-            scope.createAlert("Data retrieval has initiated.", "alert-success");
+            download.setStatus("Retrieval has started.");
+            download.setProgress(100);
+            download.makeSolid().makeInactive();
           } catch (e) {
             console.error("Failed to respond to", interest.getName().toUri(), data);
-            scope.createAlert("Data retrieval failed.");
+            download.setStatus("Retrieval has failed to start.");
+            download.setFailed();
           }
         }, function(prefix) {
-          //On fail
-          scope.createAlert("Failed to register the retrieval URI! See console for details.", "alert-danger");
+          //On register fail
+          download.setStatus("Failed! (Could not register retrieval URI! See console for details)");
+          download.setFailed();
           console.error("Failed to register URI:", prefix.toUri(), prefix);
         }, function(prefix, registeredPrefixId) {
-          //On success
+          //On register success
           var name = new Name(dest.text());
           name.append(prefix);
+          download.setStatus("Registered callback...");
+          download.setProgress(25);
           scope.expressInterest(name, function(interest, data) {
             //Success
             console.log("Request for", name.toUri(), "succeeded.", interest, data);
+            download.setStatus("Request initiated...");
+            download.setProgress(50);
           }, function() {
-            console.warn("Failed to request from retrieve agent.");
+            download.setStatus("Failed! Could not initiate the request with the agent. (Connection issue?)");
+            download.setFailed();
           });
         });
       });
